@@ -1,10 +1,17 @@
+import React from 'react';
+import { useTicTacToe } from './api/Context';
 import Game from './pages/Game';
-import './App.css';
+import ConfirmationDialog from './components/ConfirmationDialog';
 
-function App() {
+const App = () => {
+    const { showConfirmation, handleConfirmChangeOpponent } = useTicTacToe();
+
     return (
-        <Game />
+        <div>
+            <Game />
+            {showConfirmation && <ConfirmationDialog onConfirm={handleConfirmChangeOpponent} />}
+        </div>
     );
-}
+};
 
 export default App;

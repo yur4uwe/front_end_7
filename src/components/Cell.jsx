@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Cell = ({ value, onClick }) => {
+const Cell = ({ value, onClick, isWinningCell }) => {
     return (
         <button
-            className="cell"
+            className={"cell" + (isWinningCell ? " winning-cell" : "")}
             onClick={onClick}
             style={{
                 width: '60px',
@@ -12,7 +12,7 @@ const Cell = ({ value, onClick }) => {
                 textAlign: 'center',
                 cursor: 'pointer',
                 border: '1px solid #000',
-                backgroundColor: '#fff',
+                backgroundColor: isWinningCell ? '#90ee90' : '#fff', // Highlight winning cells
             }}
         >
             {value}

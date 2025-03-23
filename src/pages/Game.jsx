@@ -1,8 +1,10 @@
 import React from 'react';
-import { TicTacToeProvider } from '../api/Context';
+import { useTicTacToe } from '../api/Context';
 import Board from '../components/Board';
 
 const Game = () => {
+    const { againstBot, setShowConfirmation } = useTicTacToe();
+
     const style = {
         textAlign: 'center',
         display: 'flex',
@@ -13,12 +15,11 @@ const Game = () => {
     }
 
     return (
-        <TicTacToeProvider>
-            <div style={style}>
-                <h1>Tic Tac Toe</h1>
-                <Board />
-            </div>
-        </TicTacToeProvider>
+        <div style={style}>
+            <h1>Tic Tac Toe</h1>
+            <button onClick={() => setShowConfirmation(true)}>{againstBot ? "Play agains human?" : "Play against Bot?"}</button>
+            <Board />
+        </div>
     );
 };
 

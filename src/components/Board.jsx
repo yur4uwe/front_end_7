@@ -3,7 +3,7 @@ import Cell from './Cell';
 import { useTicTacToe } from '../api/Context';
 
 const Board = () => {
-    const { board, handleClick, winner, resetGame } = useTicTacToe();
+    const { board, handleClick, winner, winningLine, resetGame } = useTicTacToe();
 
     return (
         <div style={{ textAlign: 'center' }}>
@@ -17,7 +17,12 @@ const Board = () => {
                 }}
             >
                 {board.map((value, index) => (
-                    <Cell key={index} value={value} onClick={() => handleClick(index)} />
+                    <Cell
+                        key={index}
+                        value={value}
+                        onClick={() => handleClick(index)}
+                        isWinningCell={winningLine?.includes(index)} // Highlight winning cells
+                    />
                 ))}
             </div>
             {winner && (
