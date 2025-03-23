@@ -1,5 +1,27 @@
 .cell {
     line-height: 50px;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #000;
+    background-color: #fff;
+    /* Default background color */
+
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+    scale: 2.0;
+}
+
+.filled span {
+    scale: 1.0;
+    transition: scale 0.5s ease;
 }
 
 .winning-cell {
@@ -7,4 +29,23 @@
     /* Light green for winning cells */
     font-weight: bold;
     color: #000;
+
+    animation: highlight 1s infinite alternate;
+}
+
+.cell:hover {
+    transform: scale(1.1);
+    /* Slight zoom effect on hover */
+}
+
+@keyframes highlight {
+    from {
+        background-color: #90ee90;
+        /* Light green */
+    }
+
+    to {
+        background-color: #76c776;
+        /* Slightly darker green */
+    }
 }

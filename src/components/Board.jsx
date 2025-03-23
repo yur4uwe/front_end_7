@@ -3,7 +3,7 @@ import Cell from './Cell';
 import { useTicTacToe } from '../api/Context';
 
 const Board = () => {
-    const { board, handleClick, winner, winningLine, resetGame } = useTicTacToe();
+    const { board, handleClick, winner, winningLine, resetGame, againstBot } = useTicTacToe();
 
     return (
         <div style={{ textAlign: 'center' }}>
@@ -25,11 +25,17 @@ const Board = () => {
                     />
                 ))}
             </div>
-            {winner && (
+            {winner ? (
                 <div>
                     <h2>{winner === 'Draw' ? 'It\'s a Draw!' : `Winner: ${winner}`}</h2>
-                    <button onClick={resetGame} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
+                    <button onClick={() => resetGame(againstBot)} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
                         Restart Game
+                    </button>
+                </div>
+            ) : (
+                <div>
+                    <button onClick={() => resetGame(againstBot)} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
+                        Reset Game
                     </button>
                 </div>
             )}
