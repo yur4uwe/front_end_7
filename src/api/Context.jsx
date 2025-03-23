@@ -68,10 +68,10 @@ export const TicTacToeProvider = ({ children }) => {
         calculateWinner(newBoard);
     };
 
-    const resetGame = () => {
+    const resetGame = (againstBotGame) => {
         let initialBoard = Array(9).fill(null);
 
-        if (againstBot) {
+        if (againstBotGame) {
             const isBotsMove = Math.random() < 0.5;
             if (isBotsMove) {
                 const botMoveIndex = botsMove(initialBoard);
@@ -99,7 +99,7 @@ export const TicTacToeProvider = ({ children }) => {
         setShowConfirmation(false);
         if (confirmChange) {
             setAgainstBot(!againstBot);
-            resetGame();
+            resetGame(!againstBot);
         }
     };
 

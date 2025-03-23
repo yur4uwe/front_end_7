@@ -173,15 +173,6 @@ const castBoardToGameRep = (board) => {
     });
 }
 
-const castBoardToMoveIndex = (newBoard, oldBoard) => {
-    return newBoard.reduce((acc, cell, index) => {
-        if (cell !== oldBoard[index]) {
-            return index;
-        }
-        return acc;
-    }, -1);
-}
-
 /**
  * Bot's move using the Minimax algorithm.
  * @param {(string | null)[]} board The current board state.
