@@ -5,19 +5,12 @@ import Board from '../components/Board';
 const Game = () => {
     const { againstBot, setShowConfirmation } = useTicTacToe();
 
-    const style = {
-        textAlign: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-    }
-
     return (
-        <div style={style}>
+        <div className='game'>
             <h1>Tic Tac Toe</h1>
-            <button onClick={() => setShowConfirmation(true)}>{againstBot ? "Play agains human?" : "Play against Bot?"}</button>
+            <button onClick={() => setShowConfirmation(true)}>
+                {againstBot ? "Play agains human?" : "Play against Bot?"}
+            </button>
             <Board />
         </div>
     );

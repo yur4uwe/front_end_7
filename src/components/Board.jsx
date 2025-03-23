@@ -5,17 +5,26 @@ import { useTicTacToe } from '../api/Context';
 const Board = () => {
     const { board, handleClick, winner, winningLine, resetGame, againstBot } = useTicTacToe();
 
+    /**
+     * @param {string | null} winner 
+     * @returns 
+     */
+    const bottomButton = (winner) => {
+        const message = winner === 'Draw' ? 'It\'s a Draw!' : `Winner: ${winner}`;
+
+        return (
+            <div>
+                <h2>{message}</h2>
+                <button onClick={() => resetGame(againstBot)} className='restart-game-btn'>
+                    {winner ? "Restart Game" : "Reset Game"}
+                </button>
+            </div>
+        )
+    }
+
     return (
         <div style={{ textAlign: 'center' }}>
-            <div
-                style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 60px)',
-                    gridGap: '5px',
-                    justifyContent: 'center',
-                    margin: '20px auto',
-                }}
-            >
+            <div className='board'>
                 {board.map((value, index) => (
                     <Cell
                         key={index}
@@ -25,21 +34,8 @@ const Board = () => {
                     />
                 ))}
             </div>
-            {winner ? (
-                <div>
-                    <h2>{winner === 'Draw' ? 'It\'s a Draw!' : `Winner: ${winner}`}</h2>
-                    <button onClick={() => resetGame(againstBot)} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
-                        Restart Game
-                    </button>
-                </div>
-            ) : (
-                <div>
-                    <button onClick={() => resetGame(againstBot)} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
-                        Reset Game
-                    </button>
-                </div>
-            )}
-        </div>
+            {bottomButton(winner)}
+        </div >
     );
 };
 
