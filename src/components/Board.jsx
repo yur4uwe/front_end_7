@@ -14,7 +14,7 @@ const Board = () => {
 
         return (
             <div>
-                <h2>{message}</h2>
+                {winner && <h2>{message}</h2>}
                 <button onClick={() => resetGame(againstBot)} className='restart-game-btn'>
                     {winner ? "Restart Game" : "Reset Game"}
                 </button>

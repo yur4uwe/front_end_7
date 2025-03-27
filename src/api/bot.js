@@ -1,12 +1,12 @@
 /**
  * 
- * @param {{winning: number, losing: number, tie: number}} state 
+ * @param {{X: number, O: number}} score 
  * @param {(boolean | null)[]} currentBoard 
  * @param {GameStateNode[]} children
  * @param {boolean} isX
  */
-function GameStateNode(state, currentBoard, children, isX) {
-    this.state = state;
+function GameStateNode(score, currentBoard, children, isX) {
+    this.score = score;
     this.currentBoard = currentBoard;
     this.children = children;
     this.isX = isX;
@@ -63,13 +63,13 @@ const isGameEndingState = (board) => {
  * @returns {GameStateNode} The root of the game tree.
  */
 const myInitGameTree = () => {
-    const root = new GameStateNode({ winning: 0, losing: 0, tie: 0 }, Array(9).fill(null), [], true);
+    const root = new GameStateNode({ X: 0, O: 0 }, Array(9).fill(null), [], true);
     const memo = new Map(); // Cache for memoization
 
     /**
      * Recursive function to build the game tree and calculate the state.
      * @param {GameStateNode} node The current node.
-     * @returns {{winning: number, losing: number, tie: number}} The state of the current node.
+     * @returns {{ X: number, O: number }} The score of the current node.
      */
     const buildTree = (node) => {
         const { currentBoard, isX } = node;
@@ -79,23 +79,23 @@ const myInitGameTree = () => {
         if (gameState) {
             if (gameState === 1) {
                 // Maximizing player (X) wins
-                return isX ? { winning: 1, losing: 0, tie: 0 } : { winning: 0, losing: 1, tie: 0 };
+                return isX ? { X: 1, O: 0 } : { X: 0, O: 1 };
             }
             if (gameState === 2) {
                 // Minimizing player (O) wins
-                return isX ? { winning: 0, losing: 1, tie: 0 } : { winning: 1, losing: 0, tie: 0 };
+                return isX ? { X: 0, O: 1 } : { X: 1, O: 0 };
             }
             if (gameState === 3) {
                 // Tie
-                return { winning: 0, losing: 0, tie: 1 };
+                return { X: 0, O: 0 };
             }
         }
 
         // Generate possible moves
         const possibleMoves = calcultePossibleMoves(currentBoard);
 
-        // Initialize state for the current node
-        let currentState = { winning: 0, losing: 0, tie: 0 };
+        // Initialize score for the current node
+        let currentScore = { X: 0, O: 0 };
 
         for (let move of possibleMoves) {
             const newBoard = currentBoard.slice();
@@ -103,10 +103,9 @@ const myInitGameTree = () => {
 
             const boardKey = newBoard.join(',');
             if (memo.has(boardKey)) {
-                const childState = memo.get(boardKey);
-                currentState.winning += childState.losing;
-                currentState.losing += childState.winning;
-                currentState.tie += childState.tie;
+                const childScore = memo.get(boardKey);
+                currentScore.X += childScore.X;
+                currentScore.O += childScore.O;
                 continue;
             } else {
                 memo.set(boardKey, null);
@@ -114,7 +113,7 @@ const myInitGameTree = () => {
 
             // Create a new child node
             const newNode = new GameStateNode(
-                { winning: 0, losing: 0, tie: 0 },
+                { X: 0, O: 0 },
                 newBoard,
                 [],
                 !isX
@@ -122,20 +121,19 @@ const myInitGameTree = () => {
             node.children.push(newNode);
 
             // Recursively build the tree for the child node
-            const childState = buildTree(newNode);
+            const childScore = buildTree(newNode);
 
             // Update the memoization cache
-            memo.set(boardKey, childState);
+            memo.set(boardKey, childScore);
 
-            // Aggregate the state from the child node
-            currentState.winning += childState.losing;
-            currentState.losing += childState.winning;
-            currentState.tie += childState.tie;
+            // Aggregate the score from the child node
+            currentScore.X += childScore.X;
+            currentScore.O += childScore.O;
         }
 
-        // Update the current node's state
-        node.state = currentState;
-        return currentState;
+        // Update the current node's score
+        node.score = currentScore;
+        return currentScore;
     };
 
     // Start building the tree from the root
