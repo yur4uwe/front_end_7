@@ -7,11 +7,14 @@ const Game = () => {
 
     return (
         <div className='game'>
-            <h1>Tic Tac Toe</h1>
-            <button onClick={() => setShowConfirmation(true)}>
-                {againstBot ? "Play agains human?" : "Play against Bot?"}
-            </button>
-            <Board />
+            <div className="game-body">
+                <h1>Tic Tac Toe</h1>
+                <button className='game-body-button' onClick={() => setShowConfirmation(true)}>
+                    {againstBot ? "Play agains human?" : "Play against Bot?"}
+                </button>
+                <Board />
+            </div>
+            
         </div>
     );
 };
