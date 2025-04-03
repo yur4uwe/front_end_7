@@ -10,18 +10,46 @@ export const TicTacToeProvider = ({ children }) => {
     const [winningLine, setWinningLine] = useState(null);
     const [againstBot, setAgainstBot] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const [boardInitialized, setBoardInitialized] = useState(false);
+    const [playInitialized, setPlayInitialized] = useState(false);
+    const [winnerInitialized, setWinnerInitialized] = useState(false);
 
     useEffect(() => {
-        localStorage.setItem('ticTacToeBoard', JSON.stringify(board));
-    }, [board]);
+        const savedBoard = JSON.parse(localStorage.getItem('ticTacToeBoard'));
+        const savedIsXNext = JSON.parse(localStorage.getItem('ticTacToeIsXNext'));
+        const savedWinner = JSON.parse(localStorage.getItem('ticTacToeWinner'));
+
+        if (savedBoard) {
+            setBoard(savedBoard);
+            setBoardInitialized(true);
+        }
+        if (savedIsXNext !== null) {
+            setIsXNext(savedIsXNext);
+            setPlayInitialized(true);
+        }
+        if (savedWinner) {
+            setWinner(savedWinner);
+            setWinnerInitialized(true);
+        }
+    }, []);
 
     useEffect(() => {
-        localStorage.setItem('ticTacToeIsXNext', JSON.stringify(isXNext));
-    }, [isXNext]);
+        if (boardInitialized) {
+            localStorage.setItem('ticTacToeBoard', JSON.stringify(board));
+        }
+    }, [board, boardInitialized]);
 
     useEffect(() => {
-        localStorage.setItem('ticTacToeWinner', JSON.stringify(winner));
-    }, [winner]);
+        if (playInitialized) {
+            localStorage.setItem('ticTacToeIsXNext', JSON.stringify(isXNext));
+        }
+    }, [isXNext, playInitialized]);
+
+    useEffect(() => {
+        if (winnerInitialized) {
+            localStorage.setItem('ticTacToeWinner', JSON.stringify(winner));
+        }
+    }, [winner, winnerInitialized]);
 
     const calculateWinner = (board) => {
         const lines = [
